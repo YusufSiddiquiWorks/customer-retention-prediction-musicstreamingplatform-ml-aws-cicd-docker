@@ -1,0 +1,96 @@
+# ------------------------------
+# Python & Virtual Environment
+# ------------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+.eggs/
+.env
+.venv
+env/
+venv/
+ENV/
+*.log
+*.sqlite3
+*.db
+
+#Files Types 
+#------------------
+
+# ------------------------------
+# Jupyter Notebook
+# ------------------------------
+.ipynb_checkpoints/
+# Ignore large data files but keep notebooks
+notebook/data/*.csv
+
+# ------------------------------
+# Flask / Web App
+# ------------------------------
+instance/
+*.db
+*.sqlite
+*.sqlite3
+__pycache__/
+*.log
+
+# ------------------------------
+# OS / IDE / Editor Files
+# ------------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ------------------------------
+# Docker / Build
+# ------------------------------
+*.tar
+*.gz
+*.zip
+*.bak
+*.tmp
+*.temp
+*.pid
+
+# Ignore build and cache directories
+build/
+dist/
+*.spec
+
+# ------------------------------
+# Machine Learning Artifacts
+# ------------------------------
+*.model
+*.h5
+*.hdf5
+*.ckpt
+*.pb
+*.joblib
+*.pkl
+*.sav
+*.npz
+
+# ------------------------------
+# Others
+# ------------------------------
+# Ignore any local credentials
+*.env
+.env.*
+
+# Cache files
+.cache/
+__pycache__/
+
+# Pytest / Coverage
+.coverage
+htmlcov/
+.tox/
+.nox/
+pytest_cache/

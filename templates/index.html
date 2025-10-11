@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Streaming Customer Churn Prediction</title>
+    <style>
+        /* Reset & base styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            min-height: 100%;
+            width: 100%;
+            overflow-x: hidden; /* Only prevent horizontal scroll */
+            background-color: #121212;
+            color: white;
+            font-family: 'Circular', 'Helvetica', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            background-color: #1DB954;
+            padding: 20px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+        }
+
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1em;
+            width: 100%;
+        }
+
+        input,
+        select {
+            margin: 8px 0;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        input[type="submit"] {
+            background-color: #191414;
+            color: white;
+            cursor: pointer;
+            font-size: 1.1em;
+            padding: 12px;
+            border-radius: 50px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: white;
+            color: #191414;
+        }
+
+        /* Music background */
+        .music-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .note {
+            position: absolute;
+            font-size: 40px;
+            color: #1DB954;
+            opacity: 1;
+            animation: floatNotesLeftToRight linear infinite;
+        }
+
+        @keyframes floatNotesLeftToRight {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100vw);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media screen and (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            form {
+                padding: 15px;
+                max-width: 90%;
+            }
+            input[type="submit"] {
+                font-size: 1em;
+                padding: 10px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            h1 {
+                font-size: 1.6em;
+            }
+            form {
+                padding: 10px;
+                max-width: 95%;
+            }
+            input[type="submit"] {
+                font-size: 1em;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Music Streaming Customer Churn Prediction Form</h1>
+    
+    <form action="/predict" method="POST">
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" placeholder="Enter your age (18-80)" required>
+
+        <label for="subscription_type">Subscription Type</label>
+        <select id="subscription_type" name="subscription_type" required>
+            <option value="Free">Free</option>
+            <option value="Student">Student</option>
+            <option value="Premium">Premium</option>
+            <option value="Family">Family</option>
+        </select>
+
+        <label for="num_subscription_pauses">Number of Subscription Pauses</label>
+        <select id="num_subscription_pauses" name="num_subscription_pauses" required>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+
+        <label for="customer_service_inquiries">Customer Service Inquiries</label>
+        <select id="customer_service_inquiries" name="customer_service_inquiries" required>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+
+        <label for="weekly_hours">Weekly Hours</label>
+        <input type="number" id="weekly_hours" name="weekly_hours" placeholder="Enter weekly hours (0-50)" required>
+        
+        <label for="song_skip_rate">Song Skip Rate</label>
+        <select id="song_skip_rate" name="song_skip_rate" required>
+            <option value="No Skips">No Skips</option>
+            <option value="Light Skips">Light Skips</option>
+            <option value="Average Skips">Average Skips</option>
+            <option value="High Skips">High Skips</option>
+        </select>
+
+        <label for="weekly_unique_songs">Weekly Unique Songs</label>
+        <input type="number" id="weekly_unique_songs" name="weekly_unique_songs" placeholder="Enter unique songs (0-300)" required>
+        
+        <label for="notifications_clicked">Notifications Clicked</label>
+        <input type="number" id="notifications_clicked" name="notifications_clicked" placeholder="Enter notifications clicked (0-50)" required>
+
+        <input type="submit" value="Predict">
+    </form>
+
+    <!-- Floating Music Notes -->
+    <div class="music-background" id="music-background"></div>
+
+    <script>
+        // Function to create a new music note
+        function createMusicNote() {
+            const noteTypes = ['♪', '♫'];
+            const note = document.createElement('div');
+            note.classList.add('note');
+            note.textContent = noteTypes[Math.floor(Math.random() * noteTypes.length)];
+            note.style.top = `${Math.floor(Math.random() * 100)}%`;
+            note.style.animationDuration = `${Math.floor(Math.random() * 7) + 10}s`;
+            document.getElementById('music-background').appendChild(note);
+
+            // Remove after animation
+            setTimeout(() => note.remove(), parseInt(note.style.animationDuration) * 1000);
+        }
+
+        // Generate notes continuously
+        setInterval(createMusicNote, 1000);
+    </script>
+</body>
+</html>
