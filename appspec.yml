@@ -1,0 +1,13 @@
+version: 0.1
+os: linux
+hook:
+  ApplicationStop:
+   -location: scripts/stop_containers.sh
+   timeout: 300
+   runas: root
+
+  AfterInstall:
+   -location: scripts/start_containers.sh
+   timeout: 300
+   runas: root
+
