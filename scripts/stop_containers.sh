@@ -1,7 +1,13 @@
-echo "Stopping the Previous Container"
+#!/bin/bash
+set -e
 
-docker rm -f $(docker ps -q --filter "ancestor=yswork/musicstreaming-customerretention-prediction-ml:aws_prod_v1")
+echo "🛑 Stopping old container (if any)..."
 
-echo "Container Successfully Stopped"
+CONTAINER_ID=$(sudo docker ps -q --filter "ancestor=yswork/musicstreaming-customerretention-prediction-ml:aws_prod_v1")
 
-echo "Now Starting Containers"
+if [ -n "$CONTAINER_ID" ]; then
+  sudo docker rm -f $CONTAINER_ID || true
+  echo "✅ Previous container stopped."
+else
+  echo "ℹ️ No container found — skipping stop step."
+fi
