@@ -1,6 +1,6 @@
 version: 0.1
 os: linux
-hook:
+hooks:
   ApplicationStop:
    -location: scripts/stop_containers.sh
    timeout: 300
@@ -10,4 +10,3 @@ hook:
    -location: scripts/start_containers.sh
    timeout: 300
    runas: root
-
