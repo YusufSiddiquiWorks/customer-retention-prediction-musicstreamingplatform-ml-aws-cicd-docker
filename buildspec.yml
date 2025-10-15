@@ -13,6 +13,7 @@ phases:
     commands:
       - echo "Installing dependencies..."
       - pip install -r dockerrequirements.txt
+      - chmod +x scripts/*.sh
   build:
     commands:
       - echo "Running tests..."
