@@ -5,10 +5,10 @@ files:
     destination: /home/ubuntu/app_music_churn_ml
 hooks:
   ApplicationStop:
-    '-location': scripts/stop_containers.sh
+    -location: scripts/stop_containers.sh
     timeout: 300
     runas: root
   AfterInstall:
-    '-location': scripts/start_containers.sh
+    -location: scripts/start_containers.sh
     timeout: 300
     runas: root
