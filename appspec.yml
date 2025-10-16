@@ -4,13 +4,9 @@ os: linux
 files:
   - source: /
     destination: /home/ubuntu/app_music_churn_ml
+    file_exists_behavior: OVERWRITE
 
 hooks:
-
-  BeforeInstall:
-    - location: scripts/cleanup.sh
-      timeout: 300
-      runas: root
 
   ApplicationStop:
     - location: scripts/stop_containers.sh
